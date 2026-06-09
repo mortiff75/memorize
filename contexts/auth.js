@@ -1,14 +1,31 @@
 "use client";
 
+import { getCurrentUser } from "@/hooks/useGetUser";
+import { useEffect } from "react";
+import { useTransition } from "react";
 import { createContext, useContext, useState } from "react";
 
-const AuthContext = createContext({ user: undefined });
+const AuthContext = createContext({ user: undefined, isLoading: false });
 
-export const AuthProvider = ({ children, fetchUser }) => {
-  const [user, setUser] = useState(() => fetchUser);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  const [isLoading, startTransition] = useTransition();
+
+  useEffect(() => {
+    startTransition(async () => {
+      const user = await getCurrentUser();
+
+      if (user) {
+        setUser({ ...user });
+      }
+    });
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, isLoading }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

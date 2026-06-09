@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
   const patheName = usePathname();
 
@@ -112,7 +112,8 @@ const Navbar = () => {
       </motion.div>
 
       {/* Download Button */}
-      {user && <Avatar />}
+
+      {!isLoading && user && <Avatar />}
     </nav>
   );
 };

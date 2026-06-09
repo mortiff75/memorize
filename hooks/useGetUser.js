@@ -1,3 +1,5 @@
+"use server";
+
 import { connectDb } from "@/db/db";
 import User from "@/models/user";
 import { verifyToken } from "@/utils/auth";
