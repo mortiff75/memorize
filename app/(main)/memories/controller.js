@@ -79,9 +79,9 @@ export const create = async (formData) => {
         errors: is_valid_memory?.error.flatten().fieldErrors,
       };
 
-    // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random());
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random());
 
-    // const filename = `${uniqueSuffix}-${file.name}`;
+    const filename = `${uniqueSuffix}-${file.name}`;
 
     // filepath = path.join(process.cwd(), "public/images", filename);
 
@@ -91,7 +91,7 @@ export const create = async (formData) => {
 
     // await writeFile(filepath, buffer);
 
-    const { url } = await put(file.name, file, {
+    const { url } = await put(filename, file, {
       access: "public",
       storeId: process.env.BLOB_STORE_ID,
       token: process.env.BLOB_READ_WRITE_TOKEN,
