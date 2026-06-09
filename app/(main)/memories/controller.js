@@ -94,7 +94,11 @@ export const create = async (formData) => {
 
     // await writeFile(filepath, buffer);
 
-    const { url } = await put(file.name, file, { access: "public" });
+    const { url } = await put(file.name, file, {
+      access: "public",
+      storeId: process.env.BLOB_STORE_ID,
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    });
 
     await connectDb();
 
