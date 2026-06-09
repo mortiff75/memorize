@@ -3,9 +3,8 @@ import Memory, { memory_zod } from "@/models/memories";
 import { verifyToken } from "@/utils/auth";
 import { cookies } from "next/headers";
 // import { writeFile, unlink } from "fs/promises";
-import path from "path";
+
 import { revalidatePath } from "next/cache";
-import { cwd } from "process";
 
 import { put, del } from "@vercel/blob";
 
@@ -50,8 +49,6 @@ export const fetch_memories = async ({ title, date_memory, page }) => {
 };
 
 export const create = async (formData) => {
-  let filepath = undefined;
-
   try {
     const {
       image: file,
@@ -82,9 +79,9 @@ export const create = async (formData) => {
         errors: is_valid_memory?.error.flatten().fieldErrors,
       };
 
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random());
+    // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random());
 
-    const filename = `${uniqueSuffix}-${file.name}`;
+    // const filename = `${uniqueSuffix}-${file.name}`;
 
     // filepath = path.join(process.cwd(), "public/images", filename);
 
@@ -114,11 +111,9 @@ export const create = async (formData) => {
 
     return { success: true, message: "New Memory is created" };
   } catch (error) {
-    console.log(error);
-
     return {
       success: false,
-      errors: "Create memory is denied",
+      errors: error?.message || "Create memory is denied",
     };
   }
 };
