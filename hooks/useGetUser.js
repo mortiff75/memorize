@@ -13,7 +13,9 @@ export async function getCurrentUser() {
 
     if (!payload) return null;
 
-    const user = await User.findById(payload).lean();
+    await connectDb();
+
+    const user = await User.findById(payload);
 
     return { ...user, _id: user._id.toString() };
   } catch {

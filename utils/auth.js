@@ -1,8 +1,8 @@
 import * as jose from "jose";
 
-export async function verifyToken(token) {
-  const encodeJwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
+const encodeJwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
 
+export async function verifyToken(token) {
   try {
     const {
       payload: { id },
