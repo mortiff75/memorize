@@ -7,7 +7,7 @@ import path from "path";
 import { revalidatePath } from "next/cache";
 import { cwd } from "process";
 
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 
 export const fetch_memories = async ({ title, date_memory, page }) => {
   const cookieStore = await cookies();
@@ -123,16 +123,17 @@ export const create = async (formData) => {
   }
 };
 
-export const delete_memory = async (id) => {
+export const delete_memory = async (id, image) => {
   if (!id) return { success: false, errors: "Bad Request 400 and not sent id" };
 
   await connectDb();
 
+  await del(image, {
+    storeId: process.env.BLOB_STORE_ID,
+    token: process.env.BLOB_READ_WRITE_TOKEN,
+  });
+
   const deleted_memory = await Memory.findByIdAndDelete(id);
-
-  const image_path = path.join(cwd(), "public", deleted_memory.image);
-
-  await unlink(image_path);
 
   revalidatePath("/memories", "page");
 

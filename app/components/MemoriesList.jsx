@@ -31,7 +31,7 @@ const MemoriesList = ({ memories }) => {
 
   const selectedMemory = opstimicData.find((m) => m.title === selectedId);
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, image) => {
     // startTransition همیشه باید بیرونی‌ترین لایه باشد
     startTransition(async () => {
       // ۱. آپدیت خوش‌بینانه و سریع UI
@@ -45,7 +45,7 @@ const MemoriesList = ({ memories }) => {
 
       try {
         // ۳. ارسال درخواست واقعی به سرور
-        const result = await delete_memory(id);
+        const result = await delete_memory(id, image);
 
         if (result.success) {
           toast(result.message);

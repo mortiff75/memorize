@@ -246,7 +246,7 @@ const MemoryCard = ({ memory, index, isFocused, handleDelete, handleEdit }) => {
                         className="w-full py-4 bg-red-500/10 text-red-500 border border-red-500/20 rounded-2xl font-bold hover:bg-red-500 hover:text-white transition-all"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDelete(memory._id);
+                          handleDelete(memory._id, memory.image);
                         }}
                       >
                         Delete Memory
